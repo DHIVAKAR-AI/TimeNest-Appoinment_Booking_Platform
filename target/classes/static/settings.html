@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TimeNest - Settings & Security</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-800">
+
+    <!-- Unified Header -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-purple-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow group-hover:scale-105 transition">
+                    ⏳
+                </div>
+                <div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-purple-700 to-indigo-600 bg-clip-text text-transparent">TimeNest</span>
+                    <p class="text-[10px] text-gray-400 font-medium tracking-wider uppercase">Settings</p>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-600">
+                <a href="index.html" class="hover:text-purple-600 transition">Home</a>
+                <a href="service-details.html" class="hover:text-purple-600 transition">Explore Services</a>
+                <a href="my-bookings.html" class="hover:text-purple-600 transition">My Bookings</a>
+                <a href="account.html" class="hover:text-purple-600 transition">Account</a>
+                <a href="settings.html" class="text-purple-600 border-b-2 border-purple-600 pb-1">Settings</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="text-xs font-semibold text-gray-600 hover:text-purple-600 transition flex items-center gap-1 md:hidden">
+                    ← Home
+                </a>
+                <div id="header-auth-section"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl shadow-xl p-8 max-w-md w-full border border-purple-50">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 rounded-2xl bg-purple-100 text-purple-700 text-2xl font-bold flex items-center justify-center mx-auto mb-3">
+                    🛠️
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900">Security & Settings</h1>
+                <p class="text-xs text-gray-500 mt-1">Manage credentials and platform preferences</p>
+            </div>
+
+            <!-- Change Password Section -->
+            <div class="bg-gray-50/90 rounded-2xl p-4 border border-gray-100 mb-6">
+                <h3 class="text-xs font-bold text-gray-800 uppercase tracking-wider mb-3">Update Password</h3>
+                <form id="change-pwd-form" class="space-y-3">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-gray-700 mb-1">Current Password *</label>
+                        <input type="password" id="currentPassword" required placeholder="••••••••" class="w-full px-3 py-2 border rounded-xl text-xs focus:ring-2 focus:ring-purple-400 focus:outline-none bg-white" />
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-gray-700 mb-1">New Password (min 6 characters) *</label>
+                        <input type="password" id="newPassword" minlength="6" required placeholder="••••••••" class="w-full px-3 py-2 border rounded-xl text-xs focus:ring-2 focus:ring-purple-400 focus:outline-none bg-white" />
+                    </div>
+                    <button type="submit" id="pwd-submit-btn" class="w-full py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold rounded-xl text-xs shadow-sm transition">
+                        Save New Password
+                    </button>
+                </form>
+            </div>
+
+            <!-- Interconnected Links -->
+            <div class="space-y-2 text-xs">
+                <a href="profile.html" class="flex items-center justify-between p-3 rounded-xl hover:bg-purple-50 transition border border-gray-100 font-semibold text-gray-700">
+                    <span>👤 Edit Profile Information</span>
+                    <span class="text-gray-400">→</span>
+                </a>
+                <a href="account.html" class="flex items-center justify-between p-3 rounded-xl hover:bg-purple-50 transition border border-gray-100 font-semibold text-gray-700">
+                    <span>⚙️ View Account Plan & ID</span>
+                    <span class="text-gray-400">→</span>
+                </a>
+                <a href="my-bookings.html" class="flex items-center justify-between p-3 rounded-xl hover:bg-purple-50 transition border border-gray-100 font-semibold text-gray-700">
+                    <span>📅 Manage Scheduled Bookings</span>
+                    <span class="text-gray-400">→</span>
+                </a>
+            </div>
+
+            <div class="mt-8 pt-4 border-t border-gray-100">
+                <button onclick="TimeNestAPI.auth.logout()" class="w-full py-2.5 text-rose-600 hover:bg-rose-50 font-semibold rounded-xl text-xs transition text-center border border-rose-200">
+                    🚪 Sign Out of TimeNest
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Unified Footer -->
+    <footer class="bg-white/95 border-t border-purple-100 py-6 text-center text-xs text-gray-500">
+        &copy; 2026 TimeNest. All rights reserved.
+    </footer>
+
+    <!-- Client Scripts -->
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            TimeNestAPI.ui.renderAuthHeader();
+
+            if (!TimeNestAPI.auth.isLoggedIn()) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            document.getElementById("change-pwd-form").addEventListener("submit", async function (e) {
+                e.preventDefault();
+                const currentPassword = document.getElementById("currentPassword").value;
+                const newPassword = document.getElementById("newPassword").value;
+                const btn = document.getElementById("pwd-submit-btn");
+
+                btn.disabled = true;
+                btn.textContent = "Updating...";
+
+                try {
+                    await TimeNestAPI.users.changePassword(currentPassword, newPassword);
+                    TimeNestAPI.ui.showToast("Password updated successfully!", "success");
+                    document.getElementById("change-pwd-form").reset();
+                } catch (err) {
+                    TimeNestAPI.ui.showToast(err.message || "Failed to update password", "error");
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = "Save New Password";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

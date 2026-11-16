@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TimeNest - Admin Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-800">
+
+    <!-- Admin Header -->
+    <header class="bg-gray-900 text-white sticky top-0 z-40 border-b border-gray-800 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="w-9 h-9 rounded-xl bg-purple-600 text-white flex items-center justify-center font-bold text-lg shadow hover:bg-purple-700 transition">
+                    ⚡
+                </a>
+                <div>
+                    <span class="text-base font-bold text-white">TimeNest Admin</span>
+                    <span class="ml-2 text-[10px] bg-purple-500/20 text-purple-300 font-mono px-2 py-0.5 rounded border border-purple-500/30">MANAGEMENT PORTAL</span>
+                </div>
+            </div>
+
+            <!-- Interconnected Links -->
+            <div class="flex items-center gap-5 text-xs font-semibold">
+                <a href="index.html" class="text-gray-300 hover:text-white transition">
+                    ← Main Site
+                </a>
+                <a href="service-details.html" class="text-gray-300 hover:text-white transition">
+                    Services
+                </a>
+                <a href="my-bookings.html" class="text-gray-300 hover:text-white transition">
+                    My Bookings
+                </a>
+                <a href="/h2-console" target="_blank" class="text-purple-300 hover:text-white font-medium bg-purple-900/60 px-3 py-1.5 rounded-lg border border-purple-500/30 transition">
+                    H2 Console ↗
+                </a>
+                <button onclick="TimeNestAPI.auth.logout()" class="text-rose-400 hover:text-rose-300">
+                    Sign Out
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <!-- Overview Stats Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Total Users</div>
+                <div class="text-3xl font-black text-gray-900 mt-1" id="stat-users">-</div>
+                <div class="text-[11px] text-emerald-600 font-semibold mt-1">Platform Members</div>
+            </div>
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Appointments</div>
+                <div class="text-3xl font-black text-purple-600 mt-1" id="stat-appointments">-</div>
+                <div class="text-[11px] text-purple-600 font-semibold mt-1">Total Scheduled</div>
+            </div>
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Service Providers</div>
+                <div class="text-3xl font-black text-indigo-600 mt-1" id="stat-providers">-</div>
+                <div class="text-[11px] text-indigo-600 font-semibold mt-1">Active Specialists</div>
+            </div>
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+                <div class="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Categories</div>
+                <div class="text-3xl font-black text-emerald-600 mt-1" id="stat-categories">-</div>
+                <div class="text-[11px] text-emerald-600 font-semibold mt-1">Specialties Available</div>
+            </div>
+        </div>
+
+        <!-- Appointments Management Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 mb-8 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                <div>
+                    <h2 class="text-base font-bold text-gray-900">Live Client Appointments</h2>
+                    <p class="text-xs text-gray-500">Scheduled client consultations across all services</p>
+                </div>
+                <button onclick="loadDashboard()" class="text-xs font-bold text-purple-600 hover:text-purple-800">
+                    ↻ Refresh
+                </button>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-gray-50 text-gray-500 text-[10px] font-bold border-b border-gray-100 uppercase tracking-wider">
+                            <th class="py-3 px-4">Ref #</th>
+                            <th class="py-3 px-4">Customer</th>
+                            <th class="py-3 px-4">Provider</th>
+                            <th class="py-3 px-4">Date & Time</th>
+                            <th class="py-3 px-4">Location</th>
+                            <th class="py-3 px-4">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="appointments-table-body" class="divide-y divide-gray-100 text-xs">
+                        <tr>
+                            <td colspan="6" class="text-center py-8 text-gray-500">Loading appointments...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Registered Users Directory -->
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-100">
+                <h2 class="text-base font-bold text-gray-900">Registered Platform Users</h2>
+                <p class="text-xs text-gray-500">Member registry and access privileges</p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse text-xs">
+                    <thead>
+                        <tr class="bg-gray-50 text-gray-500 text-[10px] font-bold border-b border-gray-100 uppercase tracking-wider">
+                            <th class="py-3 px-4">ID</th>
+                            <th class="py-3 px-4">Name</th>
+                            <th class="py-3 px-4">Email</th>
+                            <th class="py-3 px-4">Role</th>
+                            <th class="py-3 px-4">Account Tier</th>
+                            <th class="py-3 px-4">Registered Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body" class="divide-y divide-gray-100 text-xs">
+                        <tr>
+                            <td colspan="6" class="text-center py-8 text-gray-500">Loading users...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Unified Footer -->
+    <footer class="bg-white border-t border-gray-200 py-6 text-center text-xs text-gray-500 mt-8">
+        &copy; 2026 TimeNest Administration Console.
+    </footer>
+
+    <!-- Client Scripts -->
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            loadDashboard();
+        });
+
+        async function loadDashboard() {
+            try {
+                // 1. Stats
+                const stats = await TimeNestAPI.admin.getStats();
+                if (stats) {
+                    document.getElementById("stat-users").textContent = stats.totalUsers || 0;
+                    document.getElementById("stat-appointments").textContent = stats.totalAppointments || 0;
+                    document.getElementById("stat-providers").textContent = stats.totalProviders || 0;
+                    document.getElementById("stat-categories").textContent = stats.totalCategories || 0;
+                }
+
+                // 2. Appointments
+                const appointments = await TimeNestAPI.admin.getAppointments();
+                const aptBody = document.getElementById("appointments-table-body");
+                if (appointments.length === 0) {
+                    aptBody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-gray-500">No appointments recorded yet.</td></tr>`;
+                } else {
+                    aptBody.innerHTML = appointments.map(a => {
+                        let badgeClass = "bg-emerald-100 text-emerald-800";
+                        if (a.status === 'CANCELLED') badgeClass = "bg-rose-100 text-rose-800";
+                        if (a.status === 'PENDING') badgeClass = "bg-amber-100 text-amber-800";
+                        if (a.status === 'COMPLETED') badgeClass = "bg-blue-100 text-blue-800";
+
+                        return `
+                            <tr class="hover:bg-gray-50/50">
+                                <td class="py-3 px-4 font-mono font-medium text-gray-600">#${a.id}</td>
+                                <td class="py-3 px-4">
+                                    <div class="font-bold text-gray-900">${a.customerName}</div>
+                                    <div class="text-gray-400 text-[11px]">${a.customerEmail}</div>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <div class="font-semibold text-gray-800">${a.providerName || '-'}</div>
+                                    <div class="text-gray-400 text-[11px]">${a.businessName || ''}</div>
+                                </td>
+                                <td class="py-3 px-4">
+                                    <div class="font-medium">${a.appointmentDate}</div>
+                                    <div class="text-purple-600 font-semibold text-[11px]">${a.appointmentTime}</div>
+                                </td>
+                                <td class="py-3 px-4 capitalize text-gray-600">${a.locationDisplay || a.location}</td>
+                                <td class="py-3 px-4">
+                                    <span class="px-2.5 py-0.5 rounded-full font-bold ${badgeClass}">
+                                        ${a.status}
+                                    </span>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+
+                // 3. Users
+                const users = await TimeNestAPI.admin.getUsers();
+                const usersBody = document.getElementById("users-table-body");
+                if (users.length === 0) {
+                    usersBody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-gray-500">No registered users found.</td></tr>`;
+                } else {
+                    usersBody.innerHTML = users.map(u => `
+                        <tr class="hover:bg-gray-50/50">
+                            <td class="py-3 px-4 font-mono text-gray-600">#${u.id}</td>
+                            <td class="py-3 px-4 font-bold text-gray-900">${u.fullName}</td>
+                            <td class="py-3 px-4 text-gray-600">${u.email}</td>
+                            <td class="py-3 px-4">
+                                <span class="px-2 py-0.5 rounded font-mono text-[10px] ${u.role === 'ROLE_ADMIN' ? 'bg-purple-100 text-purple-700 font-bold' : 'bg-gray-100 text-gray-600'}">
+                                    ${u.role}
+                                </span>
+                            </td>
+                            <td class="py-3 px-4">${u.accountType || 'Basic'}</td>
+                            <td class="py-3 px-4 text-gray-500">${u.createdAt ? new Date(u.createdAt).toLocaleDateString() : '-'}</td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    </script>
+</body>
+</html>
