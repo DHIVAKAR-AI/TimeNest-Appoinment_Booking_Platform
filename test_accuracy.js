@@ -86,7 +86,7 @@ requiredPages.forEach(page => {
 console.log('\n--- Test Suite 2: Client API & Data Accuracy ---');
 const apiContent = fs.readFileSync(apiJsPath, 'utf8');
 
-// Mock localStorage for Node test
+// Mock localStorage and window for Node test
 const mockStore = {};
 global.localStorage = {
     getItem(k) { return mockStore[k] || null; },
@@ -99,13 +99,19 @@ global.window = {
         origin: 'http://localhost:8081',
         protocol: 'http:',
         port: '8081'
-    }
+    },
+    addEventListener: () => {}
+};
+global.document = {
+    getElementById: () => null,
+    createElement: () => ({ style: {}, appendChild: () => {} }),
+    body: { appendChild: () => {} }
 };
 
 // Evaluate api.js in Node context
 try {
-    eval(apiContent);
-    assert(typeof TimeNestAPI !== 'undefined', 'TimeNestAPI initialized successfully');
+    eval(apiContent + '\nglobal.TimeNestAPI = TimeNestAPI;\nglobal.SEED_CATEGORIES = SEED_CATEGORIES;\nglobal.SEED_PROVIDERS = SEED_PROVIDERS;');
+    assert(typeof global.TimeNestAPI !== 'undefined', 'TimeNestAPI initialized successfully');
 } catch (e) {
     assert(false, `TimeNestAPI initialization error: ${e.message}`);
 }
