@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hyper Appointments - Sign Up</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <style>
+      /* Custom CSS for the logo and header */
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+      .header-title {
+        font-size: 24px;
+        font-weight: 600;
+      }
+      /* Notification styles */
+      #notification {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #4caf50;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 5px;
+        z-index: 1000;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+      #notification.show {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-tl from-purple-400 to-pink-300 min-h-screen flex items-center justify-center"
+  >
+    <div id="notification">Sign up successful! Redirecting to login...</div>
+    <div
+      class="bg-white bg-opacity-90 rounded-lg shadow-xl p-8 max-w-md w-full"
+    >
+      <div class="flex items-center justify-center mb-6">
+        <img
+          src="https://placehold.co/40x40/E07AED/ffffff?text=H&font=Montserrat"
+          alt="Hyper Appointments Logo"
+          class="logo-icon rounded-full"
+        />
+        <h1 class="header-title text-gray-800">Create Account</h1>
+      </div>
+
+      <div class="space-y-4">
+        <button
+          class="w-full py-3 rounded-full shadow-md flex items-center justify-center text-blue-600 bg-blue-100 hover:bg-blue-200 focus:outline-none focus:shadow-outline"
+        >
+          <svg
+            class="w-6 h-6 mr-2"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.691 3.409 8.561 8 9.46V15.59h-3V12h3v-2.41C10 7.82 12.83 5 15.69 5c2.79 0 5.17 1.76 5.17 1.76V12h-3.19v3.59h3.19c-.23 1.27-.97 2.46-2.09 3.32l-1.41 1.41c1.52.22 3.11.34 4.74.34z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          Sign up with Facebook
+        </button>
+        <button
+          class="w-full py-3 rounded-full shadow-md flex items-center justify-center text-red-600 bg-red-100 hover:bg-red-200 focus:outline-none focus:shadow-outline"
+        >
+          <svg
+            class="w-6 h-6 mr-2"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              d="M20.283 10.356h-8.327v3.451h4.792c-.446 2.193-2.313 3.63-5.254 3.63-2.996 0-5.471-2.46-5.471-5.488 0-3.04 2.475-5.48 5.471-5.488 1.422 0 2.707.587 3.727 1.575l2.705-2.705c-1.662-1.51-3.794-2.47-5.929-2.47-4.994 0-9.112 4.112-9.112 9.104s4.118 9.104 9.112 9.104c3.308 0 6.122-2.189 7.626-5.691l-3.148-2.189c-.824 1.24-2.013 2.05-3.478 2.05-2.71 0-4.967-2.21-4.967-4.935 0-2.73 2.257-4.94 4.967-4.94 1.366 0 2.514.501 3.475 1.326 2.087-.009 4.034-1.34 4.988-3.384z"
+            />
+          </svg>
+          Sign up with Google
+        </button>
+
+        <div class="relative py-4">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-300"></div>
+          </div>
+          <div class="relative flex justify-center text-sm leading-5">
+            <span class="bg-white bg-opacity-90 px-2 text-gray-500">
+              -or-
+            </span>
+          </div>
+        </div>
+
+        <form class="space-y-4" id="signup-form">
+          <div>
+            <label
+              for="fullName"
+              class="block text-gray-700 text-sm font-bold mb-2"
+              >Full Name</label
+            >
+            <input
+              type="text"
+              id="fullName"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Your full name"
+              required
+            />
+          </div>
+          <div>
+            <label
+              for="email"
+              class="block text-gray-700 text-sm font-bold mb-2"
+              >Email Address</label
+            >
+            <input
+              type="email"
+              id="email"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Your email"
+              required
+            />
+          </div>
+          <div>
+            <label
+              for="password"
+              class="block text-gray-700 text-sm font-bold mb-2"
+              >Password</label
+            >
+            <input
+              type="password"
+              id="password"
+              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Your password"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            class="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-full shadow-md focus:outline-none focus:shadow-outline"
+          >
+            Create Account
+          </button>
+        </form>
+      </div>
+
+      <div class="mt-6 text-center">
+        <p class="text-gray-600 text-sm">
+          Already Have an Account?
+          <a
+            href="login.html"
+            class="font-semibold text-purple-500 hover:text-purple-800"
+            >Log in</a
+          >
+        </p>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const signupForm = document.getElementById("signup-form");
+        const notification = document.getElementById("notification");
+
+        signupForm.addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent default form submission
+
+          // Simulate storing data (in a real app, this would be an API call)
+          const fullName = document.getElementById("fullName").value;
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+
+          console.log("Simulating data storage:", {
+            fullName,
+            email,
+            password,
+          });
+
+          // Show success notification
+          notification.textContent =
+            "Sign up successful! Redirecting to login...";
+          notification.classList.add("show");
+
+          // Redirect to the login page after a short delay
+          setTimeout(function () {
+            window.location.href = "login.html";
+            notification.classList.remove("show"); // Optionally hide notification after redirect
+          }, 1500);
+        });
+      });
+    </script>
+  </body>
+</html>

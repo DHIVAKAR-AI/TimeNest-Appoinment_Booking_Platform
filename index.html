@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hyper Appointments</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <style>
+      /* Updated Custom CSS for more attractive coloring and layout */
+      body {
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(
+          135deg,
+          #a8edea 0%,
+          #fed6e3 100%
+        ); /* Soft gradient background */
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        color: #333; /* Darker text for better contrast */
+      }
+      .header {
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.9
+        ); /* Semi-transparent white header */
+        padding: 1.5rem 2rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo-section {
+        display: flex;
+        align-items: center;
+      }
+      .logo-icon {
+        width: 36px;
+        height: 36px;
+        margin-right: 1rem;
+        border-radius: 8px;
+        background-color: #6c5ce7; /* Vibrant logo background */
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+      }
+      .header-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #2d3436; /* Dark header title */
+      }
+      .user-section {
+        display: flex;
+        align-items: center;
+      }
+      .profile-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: #81ecec; /* Soft profile icon background */
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin-left: 1.5rem;
+        cursor: pointer;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .dropdown {
+        position: relative;
+      }
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        right: 0;
+        background-color: #fff;
+        min-width: 160px; /* Increased width for icons */
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 2;
+        border-radius: 0.5rem;
+        margin-top: 0.5rem;
+        padding: 0.5rem 0;
+        text-align: left;
+      }
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      .dropdown-content a {
+        color: #2d3436;
+        padding: 0.75rem 1.25rem;
+        text-decoration: none;
+        display: flex; /* Use flex to align icon and text */
+        align-items: center;
+        font-size: 0.9rem;
+        transition: background-color 0.2s ease-in-out;
+      }
+      .dropdown-content a:hover {
+        background-color: #f0f0f0;
+      }
+      .dropdown-content .dropdown-icon {
+        margin-right: 0.75rem; /* Space between icon and text */
+        font-size: 1.1rem; /* Size of the icons */
+        color: #6c5ce7; /* Icon color */
+      }
+      .location-select {
+        padding: 0.75rem 1.25rem;
+        border-radius: 0.5rem;
+        border: 1px solid #d1d5db;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>');
+        background-repeat: no-repeat;
+        background-position-x: 95%;
+        background-position-y: 50%;
+        padding-right: 2.5rem;
+        font-size: 0.9rem;
+        margin-left: 1.5rem;
+        color: #2d3436;
+      }
+      .container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.85
+        ); /* Semi-transparent white container */
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      }
+      .service-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      .service-category {
+        background-color: #fff;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        text-align: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+        cursor: pointer;
+        transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      }
+      .service-category:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .service-category .logo {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+        color: #6c5ce7; /* Primary color for logos */
+      }
+      .service-category h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2d3436;
+        margin-bottom: 0.5rem;
+      }
+      .service-category p {
+        font-size: 0.85rem;
+        color: #636e72;
+      }
+      .footer {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 1.5rem 0;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #636e72;
+        margin-top: 2rem;
+        box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+      }
+      .header-image-link {
+        margin-left: 2rem;
+      }
+      .header-image {
+        max-height: 40px;
+        border-radius: 5px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo-section">
+        <div class="logo-icon">H</div>
+        <h1 class="header-title">Hyper Appointments</h1>
+      </div>
+      <div class="flex items-center">
+        <a href="#" class="header-image-link">
+          <img
+            src="https://via.placeholder.com/80x40"
+            alt="Ad Banner"
+            class="header-image"
+          />
+        </a>
+        <div>
+          <select id="location-select" class="location-select text-gray-700">
+            <option value="" disabled>Select Location</option>
+            <optgroup label="State Capitals">
+              <option value="agartala">Agartala</option>
+              <option value="aizawl">Aizawl</option>
+              <option value="amaravati">Amaravati</option>
+              <option value="bengaluru">Bengaluru</option>
+              <option value="bhopal">Bhopal</option>
+              <option value="bhubaneswar">Bhubaneswar</option>
+              <option value="chandigarh">Chandigarh</option>
+              <option value="chennai">Chennai</option>
+              <option value="dehradun">Dehradun</option>
+              <option value="dispur">Dispur</option>
+              <option value="gandhinagar">Gandhinagar</option>
+              <option value="gangtok">Gangtok</option>
+              <option value="hyderabad">Hyderabad</option>
+              <option value="imphal">Imphal</option>
+              <option value="itanagar">Itanagar</option>
+              <option value="jaipur">Jaipur</option>
+              <option value="kohima">Kohima</option>
+              <option value="kolkata">Kolkata</option>
+              <option value="lucknow">Lucknow</option>
+              <option value="mumbai">Mumbai</option>
+              <option value="panaji">Panaji</option>
+              <option value="patna">Patna</option>
+              <option value="raipur">Raipur</option>
+              <option value="ranchi">Ranchi</option>
+              <option value="shillong">Shillong</option>
+              <option value="shimla">Shimla</option>
+              <option value="srinagar">Srinagar</option>
+              <option value="thiruvananthapuram">Thiruvananthapuram</option>
+            </optgroup>
+            <optgroup label="Tamil Nadu Districts">
+              <option value="ariyalur">Ariyalur</option>
+              <option value="chengalpattu">Chengalpattu</option>
+              <option value="coimbatore">Coimbatore</option>
+              <option value="cuddalore">Cuddalore</option>
+              <option value="dharmapuri">Dharmapuri</option>
+              <option value="dindigul">Dindigul</option>
+              <option value="erode">Erode</option>
+              <option value="kallakurichi">Kallakurichi</option>
+              <option value="kancheepuram">Kancheepuram</option>
+              <option value="kanyakumari">Kanyakumari</option>
+              <option value="karur" selected>Karur</option>
+              <option value="krishnagiri">Krishnagiri</option>
+              <option value="madurai">Madurai</option>
+              <option value="mayiladuthurai">Mayiladuthurai</option>
+              <option value="nagapattinam">Nagapattinam</option>
+              <option value="namakkal">Namakkal</option>
+              <option value="perambalur">Perambalur</option>
+              <option value="pudukkottai">Pudukkottai</option>
+              <option value="ramanathapuram">Ramanathapuram</option>
+              <option value="ranipet">Ranipet</option>
+              <option value="salem">Salem</option>
+              <option value="sivaganga">Sivaganga</option>
+              <option value="theni">Theni</option>
+              <option value="thanjavur">Thanjavur</option>
+              <option value="thoothukudi">Thoothukudi</option>
+              <option value="tiruchirappalli">
+                Tiruchirappalli">Tiruchirappalli
+              </option>
+                                     
+              <option value="tirunelveli">Tirunelveli</option>
+                                     
+              <option value="tirupathur">Tirupathur</option>
+                                     
+              <option value="tiruppur">Tiruppur</option>
+                                     
+              <option value="tiruvallur">Tiruvallur</option>
+                                     
+              <option value="tiruvannamalai">Tiruvannamalai</option>
+                                     
+              <option value="tiruvarur">Tiruvarur</option>
+                                     
+              <option value="vellore">Vellore</option>
+                                     
+              <option value="viluppuram">Viluppuram</option>
+                                     
+              <option value="virudhunagar">Virudhunagar</option>
+                                 
+            </optgroup>
+                           
+          </select>
+                     
+        </div>
+                   
+        <div class="dropdown">
+                         
+          <div class="profile-icon" onclick="toggleDropdown()">
+                               
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-6 h-6"
+            >
+                                     
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.125h15.002M4.501 20.125a5.25 5.25 0 01-2.602-2.602m15.002 0a5.25 5.25 0 01-2.602-2.602M18.375 8.175l-9.75 9.75m11.4-11.4L9.75 21.375"
+              />
+                                 
+            </svg>
+                           
+          </div>
+                         
+          <div id="myDropdown" class="dropdown-content">
+                               
+            <a href="profile.html">
+                                     
+              <span class="dropdown-icon">👤</span> Profile                    
+            </a>
+                               
+            <a href="account.html">
+                                     
+              <span class="dropdown-icon">⚙️</span> Account                    
+            </a>
+                               
+            <a href="settings.html">
+                                     
+              <span class="dropdown-icon">🛠️</span> Settings                    
+            </a>
+                               
+            <a href="logout.html">
+                                      <span class="dropdown-icon">🚪</span> Log
+              Out                    
+            </a>
+                           
+          </div>
+                     
+        </div>
+               
+      </div>
+         
+    </header>
+
+       
+    <div class="container">
+             
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                    Find Services in
+        <span id="current-location-main">Karur</span>        
+      </h2>
+             
+      <p class="text-gray-600 mb-4">
+                    Explore a wide range of services available near you. Click
+        on a category to view details.        
+      </p>
+             
+      <div class="service-grid">
+                   
+        <div class="service-category" onclick="showServiceDetails('doctor')">
+                         
+          <div class="logo">⚕️</div>
+                         
+          <h3>Doctors</h3>
+                         
+          <p>Health & Wellness</p>
+                     
+        </div>
+                   
+        <div class="service-category" onclick="showServiceDetails('salon')">
+                         
+          <div class="logo">💇</div>
+                         
+          <h3>Salons</h3>
+                         
+          <p>Beauty & Grooming</p>
+                     
+        </div>
+                   
+        <div class="service-category" onclick="showServiceDetails('counselor')">
+                         
+          <div class="logo">🧑‍💼</div>
+                         
+          <h3>Career Counselors</h3>
+                         
+          <p>Professional Guidance</p>
+                     
+        </div>
+                   
+        <div class="service-category" onclick="showServiceDetails('lawyer')">
+                         
+          <div class="logo">⚖️</div>
+                         
+          <h3>Lawyers</h3>
+                         
+          <p>Legal Assistance</p>
+                     
+        </div>
+                   
+        <div class="service-category" onclick="showServiceDetails('advisor')">
+                         
+          <div class="logo">💰</div>
+                         
+          <h3>Financial Advisors</h3>
+                         
+          <p>Wealth Management</p>
+                     
+        </div>
+                   
+        <div
+          class="service-category"
+          onclick="showServiceDetails('accountant')"
+        >
+                         
+          <div class="logo">🧾</div>
+                         
+          <h3>Chartered Accountants</h3>
+                         
+          <p>Finance & Taxation</p>
+                     
+        </div>
+               
+      </div>
+         
+    </div>
+
+       
+    <footer class="footer">
+              &copy; 2025 Hyper Appointments. All rights reserved.    
+    </footer>
+
+       
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const locationSelect = document.getElementById("location-select");
+        const currentLocationSpan = document.getElementById(
+          "current-location-main"
+        );
+        locationSelect.addEventListener("change", function () {
+          const selectedLocation = this.value;
+          currentLocationSpan.textContent =
+            selectedLocation.charAt(0).toUpperCase() +
+            selectedLocation.slice(1);
+          console.log("Location changed to:", selectedLocation);
+        });
+      });
+
+      function showServiceDetails(serviceType) {
+        window.location.href = `service-details.html?service=${serviceType}&location=${
+          document.getElementById("location-select").value
+        }`;
+      }
+
+      function toggleDropdown() {
+        document.getElementById("myDropdown").classList.toggle("show");
+      } // Close the dropdown if the user clicks outside of it
+
+      window.onclick = function (event) {
+        if (!event.target.matches(".profile-icon")) {
+          var dropdowns = document.getElementsByClassName("dropdown-content");
+          var i;
+          for (i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains("show")) {
+              openDropdown.classList.remove("show");
+            }
+          }
+        }
+      };
+    </script>
+  </body>
+</html>

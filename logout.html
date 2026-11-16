@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hyper Appointments - Log Out</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #333;
+      }
+      .logout-container {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        max-width: 90%;
+        text-align: center;
+      }
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2d3436;
+        margin-bottom: 25px;
+      }
+      .logout-message {
+        font-size: 1.1rem;
+        color: #4b5563;
+        margin-bottom: 2rem;
+      }
+      .logout-button {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        background-color: #ef4444;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        transition: background-color 0.2s ease-in-out;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .logout-button:hover {
+        background-color: #b91c1c;
+      }
+      .back-link {
+        display: block;
+        margin-top: 25px;
+        color: #636e72;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s ease-in-out;
+        text-align: center;
+      }
+      .back-link:hover {
+        color: #2d3436;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="logout-container">
+      <h1>Log Out</h1>
+      <p class="logout-message">Are you sure you want to log out?</p>
+      <a href="index.html" class="logout-button">Log Out</a>
+      <a href="index.html" class="back-link">← Back to Home</a>
+    </div>
+  </body>
+</html>

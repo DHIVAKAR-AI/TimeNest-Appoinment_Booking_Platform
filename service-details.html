@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hyper Appointments - Service Details</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <style>
+      /* Custom CSS */
+      .container {
+        max-width: 768px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+      .back-link {
+        display: inline-block;
+        margin-bottom: 1rem;
+        color: #6b7280;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: color 0.2s ease-in-out;
+      }
+      .back-link:hover {
+        color: #4b5563;
+      }
+      .service-info {
+        background-color: white;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1rem;
+      }
+      .service-info h2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #374151;
+        margin-bottom: 1rem;
+      }
+      .detail-item {
+        margin-bottom: 0.75rem;
+        color: #4b5563;
+      }
+      .detail-item strong {
+        font-weight: 500;
+        color: #374151;
+        margin-right: 0.5rem;
+      }
+      .rating {
+        color: gold;
+        font-size: 1.2rem;
+      }
+      .btn-book {
+        background-color: #6d28d9;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.375rem;
+        font-weight: 600;
+        transition: background-color 0.2s ease-in-out;
+        cursor: pointer;
+        display: block;
+        width: fit-content;
+        margin: 1rem auto 0;
+        text-decoration: none;
+      }
+      .btn-book:hover {
+        background-color: #5b21b6;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100">
+    <div class="container">
+      <a href="index.html" class="back-link">← Back to Services</a>
+
+      <div id="service-details-container"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const serviceType = urlParams.get("service");
+        const location = urlParams.get("location");
+        const detailsContainer = document.getElementById(
+          "service-details-container"
+        );
+
+        if (serviceType && location) {
+          detailsContainer.innerHTML = `<h2>${capitalizeFirstLetter(
+            serviceType
+          )} Services in ${capitalizeFirstLetter(location)}</h2>`;
+          loadServiceDetails(serviceType, location);
+        } else {
+          detailsContainer.innerHTML = "<p>No service type selected.</p>";
+        }
+      });
+
+      function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+      }
+
+      function loadServiceDetails(serviceType, location) {
+        const detailsContainer = document.getElementById(
+          "service-details-container"
+        );
+        detailsContainer.innerHTML +=
+          "<p>Loading details for ${capitalizeFirstLetter(serviceType)} in ${capitalizeFirstLetter(location)}...</p>";
+
+        // Simulate fetching data based on serviceType and location
+        setTimeout(() => {
+          let detailsHTML = "";
+          if (serviceType === "doctor") {
+            if (location === "chennai") {
+              detailsHTML = `
+                        <div class="service-info">
+                            <h2>Dr. Priya Sharma - Apollo Hospitals, Chennai</h2>
+                            <p class="detail-item"><strong>Hospital:</strong> Apollo Hospitals, Greams Road, Chennai</p>
+                            <p class="detail-item"><strong>Address:</strong> 19, Greams Road, Chennai</p>
+                            <p class="detail-item"><strong>Time Slots:</strong> 10:00 AM - 1:00 PM, 3:00 PM - 6:00 PM</p>
+                            <p class="detail-item"><strong>Customer Rating:</strong> <span class="rating">★★★★★</span> (4.9)</p>
+                            <a href="booking.html?service=doctor&provider=dr-priya-sharma&location=chennai" class="btn-book">Book Appointment</a>
+                        </div>
+                        <div class="service-info">
+                            <h2>Dr. Karthik Reddy - Fortis Malar Hospital, Chennai</h2>
+                            <p class="detail-item"><strong>Hospital:</strong> Fortis Malar Hospital, Adyar, Chennai</p>
+                            <p class="detail-item"><strong>Address:</strong> 52, First Main Road, Adyar, Chennai</p>
+                            <p class="detail-item"><strong>Time Slots:</strong> 9:00 AM - 12:00 PM, 4:00 PM - 7:00 PM</p>
+                            <p class="detail-item"><strong>Customer Rating:</strong> <span class="rating">★★★★☆</span> (4.6)</p>
+                            <a href="booking.html?service=doctor&provider=dr-karthik-reddy&location=chennai" class="btn-book">Book Appointment</a>
+                        </div>
+                    `;
+            } else if (location === "karur") {
+              detailsHTML = `
+                        <div class="service-info">
+                            <h2>Dr. Anjali Devi - Lakshmi Hospital, Karur</h2>
+                            <p class="detail-item"><strong>Hospital:</strong> Lakshmi Hospital, Kovai Road, Karur</p>
+                            <p class="detail-item"><strong>Address:</strong> 78, Kovai Road, Karur</p>
+                            <p class="detail-item"><strong>Time Slots:</strong> 11:00 AM - 2:00 PM, 5:00 PM - 7:00 PM</p>
+                            <p class="detail-item"><strong>Customer Rating:</strong> <span class="rating">★★★★☆</span> (4.7)</p>
+                            <a href="booking.html?service=doctor&provider=dr-anjali-devi&location=karur" class="btn-book">Book Appointment</a>
+                        </div>
+                        <div class="service-info">
+                            <h2>Dr. Sriram Kumar - City Clinic, Karur</h2>
+                            <p class="detail-item"><strong>Hospital:</strong> City Clinic, Old Bus Stand, Karur</p>
+                            <p class="detail-item"><strong>Address:</strong> 10, Old Bus Stand, Karur</p>
+                            <p class="detail-item"><strong>Time Slots:</strong> 9:00 AM - 1:00 PM</p>
+                            <p class="detail-item"><strong>Customer Rating:</strong> <span class="rating">★★★☆☆</span> (3.9)</p>
+                            <a href="booking.html?service=doctor&provider=dr-sriram-kumar&location=karur" class="btn-book">Book Appointment</a>
+                        </div>
+                    `;
+            } else if (location === "madurai") {
+              detailsHTML = `
+                        <div class="service-info">
+                            <h2>Dr. Meena Sundaram - Velammal Hospital, Madurai</h2>
+                            <p class="detail-item"><strong>Hospital:</strong> Velammal Hospital, Anuppanadi, Madurai</p>
+                            <p class="detail-item"><strong>Address:</strong> 2, Anuppanadi, Madurai</p>
+                            <p class="detail-item"><strong>Time Slots:</strong> 10:30 AM - 1:30 PM, 4:00 PM - 6:30 PM</p>
+                            <p class="detail-item"><strong>Customer Rating:</strong> <span class="rating">★★★★★</span> (4.8)</p>
+                            <a href="booking.html?service=doctor&provider=dr-meena-sundaram&location=madurai" class="btn-book">Book Appointment</a>
+                        </div>
+                    `;
+            } else {
+              detailsHTML = `<p>No doctor details available for ${capitalizeFirstLetter(
+                location
+              )} yet.</p>`;
+            }
+          } else if (serviceType === "salon") {
+            // Add location-specific salon details here (similar to doctors)
+            if (location === "chennai") {
+              detailsHTML = `<p>Salon details for Chennai will be added here.</p>`;
+            } else if (location === "karur") {
+              detailsHTML = `<p>Salon details for Karur will be added here.</p>`;
+            } else {
+              detailsHTML = `<p>No salon details available for ${capitalizeFirstLetter(
+                location
+              )} yet.</p>`;
+            }
+          }
+          // Add similar logic for other service types (lawyer, advisor, etc.) based on the location
+
+          detailsContainer.innerHTML =
+            `<h2>${capitalizeFirstLetter(
+              serviceType
+            )} Services in ${capitalizeFirstLetter(location)}</h2>` +
+            detailsHTML;
+        }, 1000); // Simulate a 1-second delay for fetching data
+      }
+    </script>
+  </body>
+</html>

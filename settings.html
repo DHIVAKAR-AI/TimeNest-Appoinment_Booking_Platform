@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hyper Appointments - Settings</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        color: #333;
+      }
+      .settings-container {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        max-width: 90%;
+      }
+      h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2d3436;
+        margin-bottom: 25px;
+        text-align: center;
+      }
+      .settings-option {
+        margin-bottom: 18px;
+        color: #4b5563;
+        font-size: 0.95rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 12px;
+      }
+      .settings-option strong {
+        font-weight: 600;
+        color: #2d3436;
+        margin-right: 12px;
+        flex-shrink: 0;
+      }
+      .settings-option a {
+        color: #6c5ce7;
+        text-decoration: none;
+        transition: color 0.2s ease-in-out;
+      }
+      .settings-option a:hover {
+        color: #4c1d95;
+      }
+      .logout-button {
+        display: block;
+        margin-top: 25px;
+        color: #ef4444;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s ease-in-out;
+        text-align: center;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 12px;
+      }
+      .logout-button:hover {
+        color: #b91c1c;
+      }
+      .back-link {
+        display: block;
+        margin-top: 25px;
+        color: #636e72;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: color 0.2s ease-in-out;
+        text-align: center;
+      }
+      .back-link:hover {
+        color: #2d3436;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="settings-container">
+      <h1>Your Settings</h1>
+      <div class="settings-option">
+        <strong>Edit Profile:</strong>
+        <a href="profile.html">Edit</a>
+      </div>
+      <div class="settings-option">
+        <strong>Account Settings:</strong>
+        <a href="account.html">View</a>
+      </div>
+      <div class="settings-option">
+        <strong>Change Password:</strong>
+        <a href="#">Change</a>
+      </div>
+      <div class="settings-option">
+        <strong>Notifications:</strong>
+        <a href="#">Manage</a>
+      </div>
+      <a href="logout.html" class="logout-button">Log Out</a>
+      <a href="index.html" class="back-link">← Back to Home</a>
+    </div>
+  </body>
+</html>

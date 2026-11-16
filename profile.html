@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hyper Appointments - Profile</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+        .profile-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 90%;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .profile-info {
+            margin-bottom: 18px;
+            color: #4b5563;
+            font-size: 0.95rem;
+            display: flex; /* Use flexbox for label and value alignment */
+            justify-content: space-between; /* Space between label and value */
+            align-items: center; /* Vertically center items */
+        }
+        .profile-info strong {
+            font-weight: 600;
+            color: #2d3436;
+            margin-right: 12px; /* Removed fixed width, adjust spacing as needed */
+            flex-shrink: 0; /* Prevent label from shrinking */
+        }
+        .profile-info span {
+            /* No specific style here, inherits default */
+            flex-grow: 1; /* Allow value to take up remaining space */
+            text-align: right; /* Align the value to the right */
+        }
+        .back-link {
+            display: block;
+            margin-top: 25px;
+            color: #636e72;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease-in-out;
+            text-align: center;
+        }
+        .back-link:hover {
+            color: #2d3436;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h1>Your Profile</h1>
+        <div class="profile-info">
+            <strong>Username:</strong> <span id="username">john.doe</span>
+        </div>
+        <div class="profile-info">
+            <strong>Email:</strong> <span id="email">john.doe@example.com</span>
+        </div>
+        <div class="profile-info">
+            <strong>Last Login:</strong> <span id="last-login">May 15, 2025, 8:30 PM</span>
+        </div>
+        <a href="index.html" class="back-link">← Back to Home</a>
+    </div>
+
+    <script>
+        // In a real application, you would fetch this data from a backend
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate fetching user data
+            const userData = {
+                username: 'myHyperUser',
+                email: 'user@hyperappointments.com',
+                lastLogin: 'May 16, 2025, 10:15 AM'
+            };
+
+            document.getElementById('username').textContent = userData.username;
+            document.getElementById('email').textContent = userData.email;
+            document.getElementById('last-login').textContent = userData.lastLogin;
+        });
+    </script>
+</body>
+</html>
