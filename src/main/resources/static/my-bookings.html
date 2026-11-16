@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TimeNest - My Bookings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0fdfa 0%, #fae8ff 50%, #eff6ff 100%);
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-gray-800">
+
+    <!-- Unified Header -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-purple-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow group-hover:scale-105 transition">
+                    ⏳
+                </div>
+                <div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-purple-700 to-indigo-600 bg-clip-text text-transparent">TimeNest</span>
+                    <p class="text-[10px] text-gray-400 font-medium tracking-wider uppercase">My Appointments</p>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-600">
+                <a href="index.html" class="hover:text-purple-600 transition">Home</a>
+                <a href="service-details.html" class="hover:text-purple-600 transition">Explore Services</a>
+                <a href="my-bookings.html" class="text-purple-600 border-b-2 border-purple-600 pb-1">My Bookings</a>
+                <a href="account.html" class="hover:text-purple-600 transition">Account</a>
+                <a href="settings.html" class="hover:text-purple-600 transition">Settings</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="text-xs font-semibold text-gray-600 hover:text-purple-600 transition flex items-center gap-1 md:hidden">
+                    ← Home
+                </a>
+                <div id="header-auth-section"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-4xl mx-auto px-4 py-8 w-full">
+        <!-- Title & Action Bar -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+                <div class="flex items-center gap-2 text-xs text-gray-500 mb-1">
+                    <a href="index.html" class="hover:underline">Home</a>
+                    <span>/</span>
+                    <span class="text-purple-600 font-medium">My Bookings</span>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900">Your Scheduled Appointments</h1>
+                <p class="text-xs text-gray-500 mt-0.5">Manage your upcoming and past consultation appointments</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="service-details.html?service=doctor&location=karur" class="inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl text-xs font-semibold shadow-sm transition">
+                    <span>+</span> Book New Service
+                </a>
+            </div>
+        </div>
+
+        <!-- Filter Status Pills -->
+        <div class="flex items-center gap-2 mb-6 overflow-x-auto pb-1 text-xs font-semibold">
+            <button onclick="filterAppointments('ALL')" id="filter-all" class="px-3.5 py-1.5 rounded-full bg-purple-600 text-white transition">All Appointments</button>
+            <button onclick="filterAppointments('CONFIRMED')" id="filter-confirmed" class="px-3.5 py-1.5 rounded-full bg-white text-gray-600 hover:bg-purple-50 transition border border-gray-200">Confirmed</button>
+            <button onclick="filterAppointments('CANCELLED')" id="filter-cancelled" class="px-3.5 py-1.5 rounded-full bg-white text-gray-600 hover:bg-purple-50 transition border border-gray-200">Cancelled</button>
+        </div>
+
+        <!-- Bookings Container -->
+        <div id="bookings-list" class="space-y-4">
+            <div class="text-center py-12 text-gray-500">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-purple-500 border-t-transparent mb-3"></div>
+                <p class="text-xs">Loading appointments...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Unified Footer -->
+    <footer class="bg-white/95 border-t border-purple-100 py-6 text-center text-xs text-gray-500 mt-12">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div>&copy; 2026 TimeNest. All rights reserved.</div>
+            <div class="flex gap-4">
+                <a href="index.html" class="hover:underline">Home</a>
+                <a href="service-details.html" class="hover:underline">Services</a>
+                <a href="profile.html" class="hover:underline">Profile</a>
+                <a href="settings.html" class="hover:underline">Settings</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Client Scripts -->
+    <script src="js/api.js"></script>
+    <script>
+        let allAppointments = [];
+        let activeFilter = 'ALL';
+
+        document.addEventListener("DOMContentLoaded", function () {
+            TimeNestAPI.ui.renderAuthHeader();
+            loadMyBookings();
+        });
+
+        async function loadMyBookings() {
+            const container = document.getElementById("bookings-list");
+            const user = TimeNestAPI.auth.getUser();
+
+            if (!user) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-3xl p-10 text-center shadow-sm border border-purple-50">
+                        <div class="text-4xl mb-3">🔒</div>
+                        <h3 class="text-base font-bold text-gray-800">Sign in to View Your Bookings</h3>
+                        <p class="text-xs text-gray-500 mt-1 max-w-sm mx-auto">
+                            Sign in to track your upcoming consultations, view doctor details, or cancel your bookings.
+                        </p>
+                        <div class="mt-6 flex justify-center gap-3">
+                            <a href="login.html" class="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs transition">Log In</a>
+                            <a href="signup.html" class="px-5 py-2.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold rounded-xl text-xs transition">Create Account</a>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                allAppointments = await TimeNestAPI.appointments.getMine();
+                renderFilteredAppointments();
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `
+                    <div class="bg-red-50 text-red-700 p-6 rounded-2xl text-center text-xs">
+                        Failed to retrieve appointments. Please verify that the application is running.
+                    </div>
+                `;
+            }
+        }
+
+        function filterAppointments(status) {
+            activeFilter = status;
+            ['all', 'confirmed', 'cancelled'].forEach(s => {
+                const btn = document.getElementById(`filter-${s}`);
+                if (btn) {
+                    if (s.toUpperCase() === status) {
+                        btn.className = "px-3.5 py-1.5 rounded-full bg-purple-600 text-white transition";
+                    } else {
+                        btn.className = "px-3.5 py-1.5 rounded-full bg-white text-gray-600 hover:bg-purple-50 transition border border-gray-200";
+                    }
+                }
+            });
+            renderFilteredAppointments();
+        }
+
+        function renderFilteredAppointments() {
+            const container = document.getElementById("bookings-list");
+            const filtered = activeFilter === 'ALL' 
+                ? allAppointments 
+                : allAppointments.filter(a => a.status === activeFilter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-3xl p-10 text-center shadow-sm border border-purple-50">
+                        <div class="text-4xl mb-3">📅</div>
+                        <h3 class="text-base font-bold text-gray-800">No ${activeFilter !== 'ALL' ? activeFilter.toLowerCase() : ''} appointments found</h3>
+                        <p class="text-xs text-gray-500 mt-1">Ready to schedule a new consultation?</p>
+                        <a href="service-details.html?service=doctor&location=karur" class="inline-block mt-4 px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl text-xs shadow transition">
+                            Explore Services
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(item => {
+                let statusBadgeClass = "bg-emerald-100 text-emerald-800";
+                if (item.status === 'CANCELLED') statusBadgeClass = "bg-rose-100 text-rose-800";
+                if (item.status === 'PENDING') statusBadgeClass = "bg-amber-100 text-amber-800";
+                if (item.status === 'COMPLETED') statusBadgeClass = "bg-blue-100 text-blue-800";
+
+                const isCancelable = item.status !== 'CANCELLED' && item.status !== 'COMPLETED';
+
+                return `
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-purple-50 hover:shadow-md transition">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-3">
+                                    <h3 class="text-base font-bold text-gray-900">${item.providerName || 'Provider'}</h3>
+                                    <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full ${statusBadgeClass}">
+                                        ${item.status}
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-600">
+                                    🏥 ${item.businessName || ''} • 📍 ${item.locationDisplay || item.location}
+                                </p>
+                                <div class="flex flex-wrap items-center gap-3 text-xs font-semibold text-gray-700 pt-1">
+                                    <span class="bg-purple-50 text-purple-700 px-2.5 py-1 rounded-lg">
+                                        📅 ${item.appointmentDate}
+                                    </span>
+                                    <span class="bg-purple-50 text-purple-700 px-2.5 py-1 rounded-lg">
+                                        ⏰ ${item.appointmentTime}
+                                    </span>
+                                </div>
+                                ${item.notes ? `<p class="text-[11px] text-gray-400 pt-1 italic">Note: "${item.notes}"</p>` : ''}
+                            </div>
+
+                            <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-center gap-2 border-t sm:border-t-0 pt-3 sm:pt-0">
+                                <span class="text-[11px] text-gray-400 font-mono">Ref: #${item.id}</span>
+                                ${isCancelable ? `
+                                    <button onclick="cancelBooking(${item.id})" class="px-4 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-xl transition">
+                                        Cancel Booking
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function cancelBooking(id) {
+            if (!confirm("Are you sure you want to cancel this appointment?")) return;
+
+            try {
+                await TimeNestAPI.appointments.cancel(id);
+                TimeNestAPI.ui.showToast("Appointment successfully cancelled", "success");
+                loadMyBookings();
+            } catch (err) {
+                TimeNestAPI.ui.showToast(err.message || "Could not cancel appointment", "error");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,103 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hyper Appointments - Account</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <title>TimeNest - Account Overview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      body {
-        font-family: "Inter", sans-serif;
-        margin: 0;
-        padding: 20px;
-        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        color: #333;
-      }
-      .account-container {
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 30px;
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 400px;
-        max-width: 90%;
-      }
-      h1 {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #2d3436;
-        margin-bottom: 25px;
-        text-align: center;
-      }
-      .account-info {
-        margin-bottom: 18px;
-        color: #4b5563;
-        font-size: 0.95rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .account-info strong {
-        font-weight: 600;
-        color: #2d3436;
-        margin-right: 12px;
-        flex-shrink: 0;
-      }
-      .account-info span {
-        flex-grow: 1;
-        text-align: right;
-      }
-      .back-link {
-        display: block;
-        margin-top: 25px;
-        color: #636e72;
-        text-decoration: none;
-        font-size: 0.9rem;
-        transition: color 0.2s ease-in-out;
-        text-align: center;
-      }
-      .back-link:hover {
-        color: #2d3436;
-      }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            min-height: 100vh;
+        }
     </style>
-  </head>
-  <body>
-    <div class="account-container">
-      <h1>Your Account</h1>
-      <div class="account-info">
-        <strong>Account ID:</strong> <span id="account-id">12345</span>
-      </div>
-      <div class="account-info">
-        <strong>Account Type:</strong> <span id="account-type">Basic</span>
-      </div>
-      <div class="account-info">
-        <strong>Created:</strong> <span id="created-date">January 1, 2020</span>
-      </div>
-      <a href="index.html" class="back-link">← Back to Home</a>
-    </div>
-    <script>
-      // Simulate fetching account data
-      document.addEventListener("DOMContentLoaded", function () {
-        const accountData = {
-          accountId: "78901",
-          accountType: "Premium",
-          createdDate: "March 10, 2019",
-        };
+</head>
+<body class="flex flex-col min-h-screen text-gray-800">
 
-        document.getElementById("account-id").textContent =
-          accountData.accountId;
-        document.getElementById("account-type").textContent =
-          accountData.accountType;
-        document.getElementById("created-date").textContent =
-          accountData.createdDate;
-      });
+    <!-- Unified Header -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-purple-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow group-hover:scale-105 transition">
+                    ⏳
+                </div>
+                <div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-purple-700 to-indigo-600 bg-clip-text text-transparent">TimeNest</span>
+                    <p class="text-[10px] text-gray-400 font-medium tracking-wider uppercase">Account Status</p>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-600">
+                <a href="index.html" class="hover:text-purple-600 transition">Home</a>
+                <a href="service-details.html" class="hover:text-purple-600 transition">Explore Services</a>
+                <a href="my-bookings.html" class="hover:text-purple-600 transition">My Bookings</a>
+                <a href="account.html" class="text-purple-600 border-b-2 border-purple-600 pb-1">Account</a>
+                <a href="settings.html" class="hover:text-purple-600 transition">Settings</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="text-xs font-semibold text-gray-600 hover:text-purple-600 transition flex items-center gap-1 md:hidden">
+                    ← Home
+                </a>
+                <div id="header-auth-section"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl shadow-xl p-8 max-w-md w-full border border-purple-50">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 rounded-2xl bg-purple-100 text-purple-700 text-2xl font-bold flex items-center justify-center mx-auto mb-3">
+                    ⚙️
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900">Account Overview</h1>
+                <p class="text-xs text-gray-500 mt-1">Platform membership and security details</p>
+            </div>
+
+            <div class="space-y-3 divide-y divide-gray-100 text-xs">
+                <div class="flex justify-between py-2">
+                    <span class="text-gray-500 font-medium">Account ID:</span>
+                    <span class="font-mono text-xs font-semibold bg-gray-100 px-2.5 py-0.5 rounded text-gray-700" id="account-id">TN-00000</span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span class="text-gray-500 font-medium">Account Plan:</span>
+                    <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 font-bold text-[11px] rounded-full" id="account-tier">Active</span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span class="text-gray-500 font-medium">Verification Status:</span>
+                    <span class="text-emerald-600 font-semibold flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Verified Account
+                    </span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span class="text-gray-500 font-medium">Security Encryption:</span>
+                    <span class="text-gray-700 font-semibold">Spring BCrypt</span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span class="text-gray-500 font-medium">Active Bookings:</span>
+                    <a href="my-bookings.html" class="text-purple-600 font-bold hover:underline" id="bookings-count">View Schedule →</a>
+                </div>
+            </div>
+
+            <!-- Interconnected Action Links -->
+            <div class="mt-8 flex flex-col gap-2.5">
+                <a href="profile.html" class="w-full py-2.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold rounded-xl text-xs text-center border border-purple-200 transition">
+                    👤 Edit Profile Details
+                </a>
+                <a href="settings.html" class="w-full py-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold rounded-xl text-xs text-center border border-gray-200 transition">
+                    🛠️ Security & Password Settings
+                </a>
+                <a href="service-details.html?service=doctor&location=karur" class="w-full py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold rounded-xl text-xs text-center shadow-sm transition">
+                    🔍 Book a New Service
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Unified Footer -->
+    <footer class="bg-white/95 border-t border-purple-100 py-6 text-center text-xs text-gray-500">
+        &copy; 2026 TimeNest. All rights reserved.
+    </footer>
+
+    <!-- Client Scripts -->
+    <script src="js/api.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            TimeNestAPI.ui.renderAuthHeader();
+
+            const user = TimeNestAPI.auth.getUser();
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            document.getElementById("account-id").textContent = `TN-${String(user.id || 1).padStart(5, '0')}`;
+            document.getElementById("account-tier").textContent = user.accountType || (user.role === 'ROLE_ADMIN' ? 'Enterprise' : 'Premium');
+
+            try {
+                const bookings = await TimeNestAPI.appointments.getMine();
+                const activeCount = bookings.filter(b => b.status === 'CONFIRMED' || b.status === 'PENDING').length;
+                document.getElementById("bookings-count").textContent = `${activeCount} active booking(s) →`;
+            } catch (err) {
+                console.error(err);
+            }
+        });
     </script>
-  </body>
+</body>
 </html>

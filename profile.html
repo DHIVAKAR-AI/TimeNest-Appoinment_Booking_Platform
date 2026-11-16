@@ -3,101 +3,174 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hyper Appointments - Profile</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-        rel="stylesheet"
-    />
-    <script src="https://unpkg.com/@tailwindcss/browser@latest"></script>
+    <title>TimeNest - User Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 20px;
             background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
             min-height: 100vh;
-            color: #333;
-        }
-        .profile-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            max-width: 90%;
-        }
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #2d3436;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-        .profile-info {
-            margin-bottom: 18px;
-            color: #4b5563;
-            font-size: 0.95rem;
-            display: flex; /* Use flexbox for label and value alignment */
-            justify-content: space-between; /* Space between label and value */
-            align-items: center; /* Vertically center items */
-        }
-        .profile-info strong {
-            font-weight: 600;
-            color: #2d3436;
-            margin-right: 12px; /* Removed fixed width, adjust spacing as needed */
-            flex-shrink: 0; /* Prevent label from shrinking */
-        }
-        .profile-info span {
-            /* No specific style here, inherits default */
-            flex-grow: 1; /* Allow value to take up remaining space */
-            text-align: right; /* Align the value to the right */
-        }
-        .back-link {
-            display: block;
-            margin-top: 25px;
-            color: #636e72;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s ease-in-out;
-            text-align: center;
-        }
-        .back-link:hover {
-            color: #2d3436;
         }
     </style>
 </head>
-<body>
-    <div class="profile-container">
-        <h1>Your Profile</h1>
-        <div class="profile-info">
-            <strong>Username:</strong> <span id="username">john.doe</span>
-        </div>
-        <div class="profile-info">
-            <strong>Email:</strong> <span id="email">john.doe@example.com</span>
-        </div>
-        <div class="profile-info">
-            <strong>Last Login:</strong> <span id="last-login">May 15, 2025, 8:30 PM</span>
-        </div>
-        <a href="index.html" class="back-link">← Back to Home</a>
-    </div>
+<body class="flex flex-col min-h-screen text-gray-800">
 
+    <!-- Unified Header -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-purple-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow group-hover:scale-105 transition">
+                    ⏳
+                </div>
+                <div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-purple-700 to-indigo-600 bg-clip-text text-transparent">TimeNest</span>
+                    <p class="text-[10px] text-gray-400 font-medium tracking-wider uppercase">User Profile</p>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-gray-600">
+                <a href="index.html" class="hover:text-purple-600 transition">Home</a>
+                <a href="service-details.html" class="hover:text-purple-600 transition">Explore Services</a>
+                <a href="my-bookings.html" class="hover:text-purple-600 transition">My Bookings</a>
+                <a href="account.html" class="hover:text-purple-600 transition">Account</a>
+                <a href="settings.html" class="hover:text-purple-600 transition">Settings</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="text-xs font-semibold text-gray-600 hover:text-purple-600 transition flex items-center gap-1 md:hidden">
+                    ← Home
+                </a>
+                <div id="header-auth-section"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl shadow-xl p-8 max-w-md w-full border border-purple-50">
+            <!-- Avatar & Header -->
+            <div class="text-center mb-6">
+                <div id="profile-avatar" class="w-20 h-20 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 text-white text-3xl font-extrabold flex items-center justify-center mx-auto shadow-md mb-3">
+                    U
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900" id="user-fullname">Loading...</h1>
+                <p class="text-xs text-purple-600 font-bold uppercase tracking-wider mt-0.5" id="user-role">Member</p>
+            </div>
+
+            <!-- Profile Info List -->
+            <div class="space-y-3 divide-y divide-gray-100 text-xs">
+                <div class="flex justify-between py-2">
+                    <span class="text-gray-500 font-medium">Email:</span>
+                    <span class="font-semibold text-gray-800" id="user-email">-</span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span class="text-gray-500 font-medium">Phone:</span>
+                    <span class="font-semibold text-gray-800" id="user-phone">Not provided</span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span class="text-gray-500 font-medium">Account Plan:</span>
+                    <span class="px-2.5 py-0.5 bg-purple-100 text-purple-700 font-bold text-[11px] rounded-full" id="user-account-type">Basic</span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span class="text-gray-500 font-medium">Member Since:</span>
+                    <span class="text-gray-600" id="user-created">-</span>
+                </div>
+            </div>
+
+            <!-- Edit Form (Hidden Toggle) -->
+            <div id="edit-form-container" class="mt-6 pt-4 border-t border-gray-100 hidden">
+                <form id="edit-profile-form" class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Full Name</label>
+                        <input type="text" id="edit-fullname" required class="w-full px-3 py-2 border rounded-xl text-xs" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 mb-1">Phone Number</label>
+                        <input type="text" id="edit-phone" class="w-full px-3 py-2 border rounded-xl text-xs" />
+                    </div>
+                    <div class="flex gap-2 pt-1">
+                        <button type="submit" class="flex-1 py-2 bg-purple-600 text-white font-semibold rounded-xl text-xs shadow-sm">Save Changes</button>
+                        <button type="button" onclick="toggleEdit(false)" class="px-4 py-2 border text-gray-600 rounded-xl text-xs">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Action Tiles connecting each page -->
+            <div id="actions-container" class="mt-6 flex flex-col gap-2">
+                <button onclick="toggleEdit(true)" class="w-full py-2.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-semibold rounded-xl text-xs transition">
+                    ✏️ Edit Profile Info
+                </button>
+                <div class="grid grid-cols-2 gap-2 mt-1">
+                    <a href="my-bookings.html" class="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold rounded-xl text-xs text-center border border-gray-100 transition">
+                        📅 My Bookings
+                    </a>
+                    <a href="account.html" class="p-2.5 bg-gray-50 hover:bg-gray-100 text-gray-700 font-semibold rounded-xl text-xs text-center border border-gray-100 transition">
+                        ⚙️ Account Overview
+                    </a>
+                </div>
+                <a href="settings.html" class="w-full py-2 text-gray-500 hover:text-gray-800 text-xs text-center transition">
+                    🛠️ Security & Password Settings →
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Unified Footer -->
+    <footer class="bg-white/95 border-t border-purple-100 py-6 text-center text-xs text-gray-500">
+        &copy; 2026 TimeNest. All rights reserved.
+    </footer>
+
+    <!-- Client Scripts -->
+    <script src="js/api.js"></script>
     <script>
-        // In a real application, you would fetch this data from a backend
-        document.addEventListener('DOMContentLoaded', function() {
-            // Simulate fetching user data
-            const userData = {
-                username: 'myHyperUser',
-                email: 'user@hyperappointments.com',
-                lastLogin: 'May 16, 2025, 10:15 AM'
-            };
+        document.addEventListener("DOMContentLoaded", async function () {
+            TimeNestAPI.ui.renderAuthHeader();
 
-            document.getElementById('username').textContent = userData.username;
-            document.getElementById('email').textContent = userData.email;
-            document.getElementById('last-login').textContent = userData.lastLogin;
+            const user = TimeNestAPI.auth.getUser();
+            if (!user) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            try {
+                const profile = await TimeNestAPI.users.getProfile();
+                const display = profile || user;
+
+                document.getElementById("user-fullname").textContent = display.fullName;
+                document.getElementById("profile-avatar").textContent = display.fullName.charAt(0).toUpperCase();
+                document.getElementById("user-role").textContent = display.role === 'ROLE_ADMIN' ? 'Platform Administrator' : 'Verified Member';
+                document.getElementById("user-email").textContent = display.email;
+                document.getElementById("user-phone").textContent = display.phone || 'Not provided';
+                document.getElementById("user-account-type").textContent = display.accountType || 'Basic';
+                document.getElementById("user-created").textContent = display.createdAt ? new Date(display.createdAt).toLocaleDateString() : 'Active';
+
+                document.getElementById("edit-fullname").value = display.fullName;
+                document.getElementById("edit-phone").value = display.phone || '';
+            } catch (err) {
+                console.error(err);
+            }
+
+            document.getElementById("edit-profile-form").addEventListener("submit", async function (e) {
+                e.preventDefault();
+                const fullName = document.getElementById("edit-fullname").value;
+                const phone = document.getElementById("edit-phone").value;
+
+                try {
+                    const updated = await TimeNestAPI.users.updateProfile({ fullName, phone });
+                    TimeNestAPI.ui.showToast("Profile updated successfully!", "success");
+                    document.getElementById("user-fullname").textContent = updated.fullName;
+                    document.getElementById("user-phone").textContent = updated.phone || 'Not provided';
+                    toggleEdit(false);
+                } catch (err) {
+                    TimeNestAPI.ui.showToast(err.message || "Failed to update profile", "error");
+                }
+            });
         });
+
+        function toggleEdit(show) {
+            document.getElementById("edit-form-container").classList.toggle("hidden", !show);
+            document.getElementById("actions-container").classList.toggle("hidden", show);
+        }
     </script>
 </body>
 </html>
